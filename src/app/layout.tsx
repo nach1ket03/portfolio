@@ -16,15 +16,24 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Nachiket — Full Stack Developer",
+  title: "Nachiket — MERN Developer & AI Builder",
   description:
-    "Full-Stack Developer & AI Engineer. Building polished web products with modern tech. Founder of Brink Co. Based in Pune, India.",
-  keywords: ["Nachiket", "Full Stack Developer", "Next.js", "React", "MERN", "AI Engineer", "Portfolio", "Pune"],
-  authors: [{ name: "Nachiket" }],
+    "Nachiket — MERN stack developer & AI tools builder. Founder of Brink Co. Open to internships & freelance. Based in Pune, India.",
+  authors: [{ name: "Nachiket Chole" }],
   openGraph: {
-    title: "Nachiket — Full Stack Developer",
-    description: "Full-Stack Developer & AI Engineer building polished web products.",
+    title: "Nachiket — MERN Developer & AI Builder",
+    description:
+      "MERN stack developer & AI tools builder. Founder of Brink Co. Open to internships & freelance. Based in Pune, India.",
     type: "website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nachiket — MERN Developer & AI Builder",
+    description:
+      "MERN stack developer & AI tools builder. Founder of Brink Co. Open to internships & freelance. Based in Pune, India.",
+    images: ["/og-image.png"],
+    creator: "@nach1ket03",
   },
 };
 

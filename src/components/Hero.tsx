@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, ArrowUpRight, Github, Linkedin, Twitter, Search, Sparkles } from "lucide-react";
+import { FileText, ArrowUpRight, Github, Linkedin, Twitter, Sparkles } from "lucide-react";
 
 const socials = [
-  { href: "https://github.com/nach1ket03", label: "GitHub", icon: Github },
-  { href: "https://linkedin.com/in/nachiket", label: "LinkedIn", icon: Linkedin },
-  { href: "https://x.com/nachiket", label: "X / Twitter", icon: Twitter },
+  { href: "https://github.com/nach1ket03",         label: "GitHub",    icon: Github   },
+  // linkedin.com/in/nachiket-chole — update if slug changes
+  { href: "https://linkedin.com/in/nachiket-chole", label: "LinkedIn",  icon: Linkedin },
+  { href: "https://x.com/nach1ket03",              label: "X/Twitter", icon: Twitter  },
 ];
 
-/* Word-level mask reveal — each word slides up from below */
+const currentlyBuilding = [
+  "MERN Task Manager",
+  "AI Review Tool (ReView)",
+  "Brink Co client sites",
+];
+
 function WordReveal({
   text,
   delay = 0,
@@ -20,74 +26,31 @@ function WordReveal({
   delay?: number;
   className?: string;
 }) {
-  const words = text.split(" ");
   return (
     <span className={className} aria-label={text}>
-      {words.map((word, i) => (
+      {text.split(" ").map((word, i) => (
         <span key={i} className="inline-block overflow-hidden" style={{ verticalAlign: "bottom" }}>
           <motion.span
             className="inline-block"
             initial={{ y: "112%" }}
             animate={{ y: 0 }}
-            transition={{
-              duration: 0.85,
-              delay: delay + i * 0.1,
-              ease: [0.16, 1, 0.3, 1],
-            }}
+            transition={{ duration: 0.85, delay: delay + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
-            {word}
-            {i < words.length - 1 ? " " : ""}
+            {word}{" "}
           </motion.span>
         </span>
       ))}
     </span>
   );
 }
-
-/* Staggered character reveal for the name */
-function CharReveal({
-  text,
-  delay = 0,
-  className = "",
-}: {
-  text: string;
-  delay?: number;
-  className?: string;
-}) {
-  return (
-    <span className={className} aria-label={text}>
-      {text.split("").map((char, i) => (
-        <span key={i} className="inline-block overflow-hidden" style={{ verticalAlign: "bottom" }}>
-          <motion.span
-            className="inline-block"
-            initial={{ y: "110%" }}
-            animate={{ y: 0 }}
-            transition={{
-              duration: 0.7,
-              delay: delay + i * 0.04,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {char === " " ? " " : char}
-          </motion.span>
-        </span>
-      ))}
-    </span>
-  );
-}
-
-/* Rotating words in the headline */
-const rotatingPhrases = ["the web.", "real users.", "the future.", "Pune & beyond."];
 
 export default function Hero() {
   const [chatFocused, setChatFocused] = useState(false);
-  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [buildIdx, setBuildIdx] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPhraseIndex((prev) => (prev + 1) % rotatingPhrases.length);
-    }, 2800);
-    return () => clearInterval(interval);
+    const id = setInterval(() => setBuildIdx((p) => (p + 1) % currentlyBuilding.length), 2600);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -97,48 +60,47 @@ export default function Hero() {
     >
       {/* ── Atmospheric glows ─────────────────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Central breathing glow */}
         <motion.div
           animate={{ opacity: [0.06, 0.12, 0.06], scale: [1, 1.08, 1] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] w-[900px] h-[900px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)",
-          }}
+          style={{ background: "radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%)" }}
         />
-        {/* Top-left accent */}
         <motion.div
           animate={{ opacity: [0.04, 0.09, 0.04] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(130,100,255,0.15) 0%, transparent 70%)",
-          }}
+          style={{ background: "radial-gradient(circle, rgba(200,241,53,0.06) 0%, transparent 70%)" }}
         />
-        {/* Bottom-right accent */}
         <motion.div
           animate={{ opacity: [0.03, 0.07, 0.03] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           className="absolute -bottom-32 -right-20 w-[450px] h-[450px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(60,160,255,0.1) 0%, transparent 70%)",
-          }}
+          style={{ background: "radial-gradient(circle, rgba(60,160,255,0.08) 0%, transparent 70%)" }}
         />
       </div>
 
-      {/* ── Dot-grid background ───────────────────────────────────────────── */}
+      {/* ── Dot-grid ─────────────────────────────────────────────────────── */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)`,
           backgroundSize: "36px 36px",
           maskImage: "radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%)",
         }}
       />
 
-      {/* ── Horizontal separator lines (cinematic) ───────────────────────── */}
+      {/* ── Hero-specific noise layer (item 18) ──────────────────────────── */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 3px)",
+        }}
+      />
+
+      {/* ── Cinematic separator lines ─────────────────────────────────────── */}
       <motion.div
         initial={{ scaleX: 0, opacity: 0 }}
         animate={{ scaleX: 1, opacity: 1 }}
@@ -155,14 +117,14 @@ export default function Hero() {
       />
 
       {/* ── Content ───────────────────────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-2xl flex flex-col items-center gap-9 text-center">
+      <div className="relative z-10 w-full max-w-2xl flex flex-col items-center gap-8 text-center">
 
-        {/* Status badge */}
+        {/* Availability badge */}
         <motion.div
           initial={{ opacity: 0, y: -16, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center gap-2 rounded-full border border-[#222222] bg-[#111111]/80 px-3.5 py-1.5 backdrop-blur-sm"
+          className="flex items-center gap-2 rounded-full border border-[#222] bg-[#111]/80 px-3.5 py-1.5 backdrop-blur-sm"
         >
           <span className="relative flex h-1.5 w-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -173,39 +135,64 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Headline — cinematic word reveal */}
+        {/* ── Headline (item 3) ─────────────────────────────────────────── */}
         <div className="space-y-1">
           <h1
             className="text-[clamp(2.8rem,9vw,5.5rem)] font-bold leading-[1.02] tracking-tight text-white"
             style={{ fontFamily: "var(--font-syne)" }}
           >
             <span className="block">
-              <WordReveal text="Full-Stack Dev" delay={0.25} />
+              <WordReveal text="Building web products" delay={0.2} />
             </span>
             <span className="block text-neutral-500">
-              <WordReveal text="& College Student." delay={0.45} />
+              <WordReveal text="that feel premium." delay={0.42} />
             </span>
           </h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.55 }}
+            className="text-[13px] font-medium tracking-wide pt-2"
+            style={{ color: "rgba(200,241,53,0.7)", fontFamily: "var(--font-syne)" }}
+          >
+            MERN developer &amp; AI tools builder · Pune, India
+          </motion.p>
         </div>
 
-        {/* Rotating "Building for ___" line */}
+        {/* ── Currently Building ticker (item 7) ───────────────────────── */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9, duration: 0.6 }}
-          className="flex items-center gap-2 text-sm text-neutral-600 font-medium tracking-wide"
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.85, duration: 0.5 }}
+          className="flex items-center gap-2.5 rounded-full px-4 py-1.5"
+          style={{
+            border: "1px solid rgba(200,241,53,0.22)",
+            background: "rgba(200,241,53,0.04)",
+          }}
         >
-          <span className="text-[11px] uppercase tracking-[0.2em]">Building for</span>
+          <motion.span
+            animate={{ opacity: [1, 0.4, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="h-1.5 w-1.5 rounded-full shrink-0"
+            style={{ background: "#c8f135" }}
+          />
+          <span
+            className="text-[11px] tracking-wide"
+            style={{ color: "rgba(200,241,53,0.6)", fontFamily: "var(--font-syne)" }}
+          >
+            Currently:&nbsp;
+          </span>
           <AnimatePresence mode="wait">
             <motion.span
-              key={phraseIndex}
-              initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+              key={buildIdx}
+              initial={{ opacity: 0, y: 6, filter: "blur(4px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[11px] uppercase tracking-[0.2em] text-neutral-400"
+              exit={{ opacity: 0, y: -6, filter: "blur(4px)" }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[11px] font-semibold tracking-wide"
+              style={{ color: "#c8f135", fontFamily: "var(--font-syne)" }}
             >
-              {rotatingPhrases[phraseIndex]}
+              {currentlyBuilding[buildIdx]}
             </motion.span>
           </AnimatePresence>
         </motion.div>
@@ -229,7 +216,7 @@ export default function Hero() {
           . Based in Pune, India.
         </motion.p>
 
-        {/* AI search bar — elevated premium feel */}
+        {/* AI search bar */}
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -241,49 +228,31 @@ export default function Hero() {
             onBlur={() => setChatFocused(false)}
             tabIndex={0}
             data-cursor-hover
-            className={`group relative flex items-center gap-3 px-5 py-4 rounded-2xl cursor-text transition-all duration-300 outline-none ${
-              chatFocused
-                ? "shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_8px_32px_rgba(0,0,0,0.4)]"
-                : "hover:shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_4px_16px_rgba(0,0,0,0.3)]"
-            }`}
+            className="group relative flex items-center gap-3 px-5 py-4 rounded-2xl cursor-text transition-all duration-300 outline-none"
             style={{
-              background: chatFocused
-                ? "rgba(17,17,17,0.95)"
-                : "rgba(14,14,14,0.8)",
-              border: chatFocused
-                ? "1px solid rgba(255,255,255,0.14)"
-                : "1px solid rgba(255,255,255,0.06)",
+              background: chatFocused ? "rgba(17,17,17,0.95)" : "rgba(14,14,14,0.8)",
+              border: chatFocused ? "1px solid rgba(255,255,255,0.14)" : "1px solid rgba(255,255,255,0.06)",
               backdropFilter: "blur(20px)",
+              boxShadow: chatFocused ? "0 0 0 1px rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.4)" : "none",
             }}
           >
-            {/* Glow pulse on focus */}
             {chatFocused && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="pointer-events-none absolute inset-0 rounded-2xl"
-                style={{
-                  background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 70%)",
-                }}
+                style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 70%)" }}
               />
             )}
-
-            <motion.div
-              animate={{ rotate: chatFocused ? 360 : 0 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            >
+            <motion.div animate={{ rotate: chatFocused ? 360 : 0 }} transition={{ duration: 0.5 }}>
               <Sparkles size={14} className={chatFocused ? "text-neutral-300" : "text-neutral-700"} />
             </motion.div>
-
             <span className="text-neutral-600 text-sm flex-1 text-left select-none">
               Ask me anything about my work...
             </span>
-
-            <div className="hidden sm:flex items-center gap-1 flex-shrink-0">
-              <kbd className="text-[11px] text-neutral-700 border border-[#252525] bg-[#181818] rounded-md px-1.5 py-0.5 font-mono leading-none">
-                ↵
-              </kbd>
-            </div>
+            <kbd className="hidden sm:block text-[11px] text-neutral-700 border border-[#252525] bg-[#181818] rounded-md px-1.5 py-0.5 font-mono leading-none">
+              ↵
+            </kbd>
           </div>
         </motion.div>
 
@@ -298,10 +267,12 @@ export default function Hero() {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="View Nachiket's resume (PDF)"
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.96 }}
             data-cursor-hover
             className="flex items-center gap-2 bg-white text-black font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-neutral-100 transition-colors shadow-lg shadow-black/40"
+            style={{ fontFamily: "var(--font-syne)" }}
           >
             <FileText size={14} />
             View Resume
@@ -315,15 +286,12 @@ export default function Hero() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={label}
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.93 }}
-                aria-label={label}
                 data-cursor-hover
                 className="flex items-center justify-center w-10 h-10 rounded-xl border text-neutral-600 hover:text-white transition-all duration-200"
-                style={{
-                  background: "rgba(14,14,14,0.8)",
-                  borderColor: "rgba(255,255,255,0.07)",
-                }}
+                style={{ background: "rgba(14,14,14,0.8)", borderColor: "rgba(255,255,255,0.07)" }}
               >
                 <Icon size={16} />
               </motion.a>
@@ -332,7 +300,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* ── Cinematic scroll indicator ────────────────────────────────────── */}
+      {/* ── Scroll indicator ──────────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -344,17 +312,13 @@ export default function Hero() {
           transition={{ repeat: Infinity, duration: 2.4, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] tracking-[0.3em] uppercase text-neutral-700 font-medium">
-            scroll
-          </span>
+          <span className="text-[9px] tracking-[0.3em] uppercase text-neutral-700 font-medium">scroll</span>
           <div className="w-px h-8 overflow-hidden rounded-full">
             <motion.div
               animate={{ y: ["-100%", "200%"] }}
               transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
               className="w-full h-1/2 rounded-full"
-              style={{
-                background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.4), transparent)",
-              }}
+              style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.35), transparent)" }}
             />
           </div>
         </motion.div>

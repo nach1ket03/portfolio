@@ -33,7 +33,7 @@ export default function Footer() {
             nachiket.
           </span>
           <p className="text-neutral-800 text-xs" style={{ fontFamily: "var(--font-syne)" }}>
-            © {new Date().getFullYear()} · Built with Next.js &amp; Tailwind
+            Designed &amp; built by Nachiket · Brink Co · 2026
           </p>
         </div>
 
